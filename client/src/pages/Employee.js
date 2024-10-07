@@ -133,6 +133,7 @@ function Employee() {
                                     <th className="font-medium p-2">Username</th>
                                     <th className="font-medium p-2">Country</th>
                                     <th className="font-medium p-2">Email</th>
+                                    <th className="font-medium p-2">Contact</th>
                                     <th className="font-medium p-2">Account Type</th>
                                     <th className="font-medium p-2">Action</th>
                                 </tr>
@@ -155,6 +156,7 @@ function Employee() {
                                         <td className="p-2">{employee.username}</td>
                                         <td className="p-2">{employee.country}</td>
                                         <td className="p-2">{employee.email}</td>
+                                        <td className="p-2">{employee.contactNumber}</td>
                                         <td className="p-2">{employee.accountType}</td>
                                         <td className="p-2 flex justify-center items-center gap-3">
                                             <Link to={`/employee/edit/${employee._id}`}>

@@ -182,7 +182,7 @@ function Update() {
         <div className="mb-4">
           <label className="block text-gray-700">Contact Number: <span className="text-red-500">*</span></label>
           <input
-            type="tel"
+            type="number"
             name="contactNumber"
             value={formData.contactNumber}
             onChange={handleChange}
