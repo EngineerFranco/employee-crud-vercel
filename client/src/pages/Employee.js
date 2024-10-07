@@ -14,7 +14,7 @@ function Employee() {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-
+    const [entriesToShow, setEntriesToShow] = useState(10);
 
     useEffect(() => {
         const fetchEmployees = async () => {
@@ -26,11 +26,10 @@ function Employee() {
                     }
                 });
                 const dataAPI = await dataResponse.json();
-                console.log(dataAPI)
+                console.log(dataAPI);
                 if (dataAPI.error) {
                     toast.error(dataAPI.message);
                 } else {
-                    
                     setEmployees(dataAPI.data);
                 }
             } catch (error) {
@@ -50,20 +49,20 @@ function Employee() {
 
     const confirmDelete = async () => {
         try {
-            console.log(selectedEmployeeId) 
+            console.log(selectedEmployeeId);
             const dataResponse = await fetch(`${summaryAPI.delete.url}/${selectedEmployeeId}`, {
                 method: summaryAPI.delete.method,
                 headers: {
                     "content-type": "application/json"
                 }
             });
-         
+
             const dataAPI = await dataResponse.json();
             if (dataAPI.error) {
                 toast.error(dataAPI.message);
             } else {
                 setEmployees(employees.filter(emp => emp._id !== selectedEmployeeId));
-                toast.success(dataAPI.message)
+                toast.success(dataAPI.message);
             }
         } catch (error) {
             toast.error(error.message);
@@ -71,6 +70,7 @@ function Employee() {
             setShowDeleteDialog(false);
         }
     };
+
     const filteredEmployees = employees.filter((employee) => {
         const fullName = `${employee.firstName} ${employee.lastName}`.toLowerCase();
         return (
@@ -80,6 +80,8 @@ function Employee() {
         );
     });
 
+    const displayedEmployees = entriesToShow === 'All' ? filteredEmployees : filteredEmployees.slice(0, entriesToShow);
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
@@ -87,32 +89,41 @@ function Employee() {
         <section className="flex flex-col justify-center items-center w-full max-w-6xl mt-5 mx-auto text-gray-700 gap-2 p-4">
             <h2 className="mr-auto text-base md:text-lg">Employee: <span className="text-blue-400 cursor-pointer">Records</span></h2>
             <hr className="border-t border-gray-300 w-full" />
-    
+
             <Link to={"/employee/add"} className="ml-auto">
                 <div className="flex justify-center items-center gap-2 p-2 bg-blue-400 rounded-md border border-gray-50 border-opacity-20 mb-3">
                     <FaPlusSquare className="text-white" />
                     <button className="uppercase text-sm md:text-base text-white font-light">Add Employee</button>
                 </div>
             </Link>
-    
+
             <div className="w-full h-auto rounded-md border-2 border-gray-300 border-opacity-50">
                 <div className="mx-5 my-5">
                     <div className="flex flex-col md:flex-row items-center md:justify-between gap-4">
                         <div className="gap-2 flex items-center justify-center mb-4 md:mb-0">
                             <label htmlFor="lists" className="text-sm md:text-base">Show</label>
-                            <select id="lists" name="browser" className="border border-gray-200 rounded-lg w-[4rem] h-[2rem]">
+                            <select
+                                id="lists"
+                                name="browser"
+                                className="border border-gray-200 rounded-lg w-[4rem] h-[2rem]"
+                                onChange={(e) => setEntriesToShow(e.target.value)} 
+                            >
                                 <option value="10">10</option>
                                 <option value="All">All</option>
                             </select>
                             <p className="text-sm md:text-base">entries</p>
                         </div>
-    
+
                         <div className="flex items-center justify-center gap-2">
                             <p className="text-sm md:text-base">Search:</p>
-                            <input className="px-2 h-[2rem] w-full md:w-[12rem] border border-gray-200 rounded-lg" onChange={(e) => setSearchQuery(e.target.value)} placeholder='first name or last name'/>
+                            <input
+                                className="px-2 h-[2rem] w-full md:w-[12rem] border border-gray-200 rounded-lg"
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder='first name or last name'
+                            />
                         </div>
                     </div>
-    
+
                     <div className="overflow-x-auto mt-3">
                         <table className="text-gray-700 border border-gray-200 w-full">
                             <thead>
@@ -127,14 +138,14 @@ function Employee() {
                                 </tr>
                             </thead>
                             <tbody className="text-center text-xs md:text-sm">
-                                {filteredEmployees.map((employee) => (
+                                {displayedEmployees.map((employee) => (
                                     <tr key={employee._id}>
                                         <td className="p-2">
                                             {employee.photo ? (
-                                                <img 
-                                                    src={employee.photo} 
-                                                    alt={`${employee.firstName} ${employee.lastName}`} 
-                                                    className="w-10 h-10 object-cover rounded-full mx-auto" 
+                                                <img
+                                                    src={employee.photo}
+                                                    alt={`${employee.firstName} ${employee.lastName}`}
+                                                    className="w-10 h-10 object-cover rounded-full mx-auto"
                                                 />
                                             ) : (
                                                 <FaRegCircleUser className="w-10 h-10 object-cover rounded-full mx-auto" />
@@ -151,7 +162,7 @@ function Employee() {
                                             </Link>
                                             <RiDeleteBin5Line
                                                 className="bg-red-500 text-2xl md:text-3xl text-white rounded-md p-1"
-                                                onClick={() => handleDeleteClick(employee._id)} 
+                                                onClick={() => handleDeleteClick(employee._id)}
                                             />
                                         </td>
                                     </tr>
@@ -161,7 +172,7 @@ function Employee() {
                     </div>
                 </div>
             </div>
-    
+
             {showDeleteDialog && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-4 rounded shadow-lg">
@@ -185,7 +196,6 @@ function Employee() {
             )}
         </section>
     );
-    
 }
 
 export default Employee;
