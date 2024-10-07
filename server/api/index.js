@@ -1,14 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import connectDB from './config/db.js';
-import router from './router/router.js';
+import connectDB from '../config/db.js';
+import router from '../router/router.js';
 
 dotenv.config();
 
 const app = express();
 
-// limit: limit size of images
+// Limit: limit size of images
 app.use(express.json({ limit: '10mb' })); 
 app.use(express.urlencoded({ limit: '10mb', extended: true })); 
 
@@ -19,7 +19,7 @@ app.use(cors({
 
 app.use("/api", router);
 
-
+// Error handling middleware
 app.use((err, req, res, next) => {
     if (err.name === 'PayloadTooLargeError') {
         return res.status(413).json({
@@ -43,11 +43,23 @@ app.use((err, req, res) => {
     });
 });
 
-const PORT = process.env.PORT || 3501;
+// Initialize database connection
+let isConnected = false;
 
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Connected to MongoDB`);
-        console.log(`Server is running at port ${PORT}`);
-    });
-});
+const connectAndStartServer = async () => {
+    try {
+        await connectDB();
+        isConnected = true; // Set to true after successful connection
+        console.log('Connected to MongoDB');
+        const port = process.env.PORT || 3501;
+        app.listen(port, () => {
+            console.log(`Server is running at port ${port}`);
+        });
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error.message);
+        process.exit(1); // Exit the process with failure
+    }
+};
+
+// Call the function to start the server
+connectAndStartServer();
