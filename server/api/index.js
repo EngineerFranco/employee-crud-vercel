@@ -8,18 +8,18 @@ dotenv.config();
 
 const app = express();
 
-// Limit: limit size of images
 app.use(express.json({ limit: '10mb' })); 
 app.use(express.urlencoded({ limit: '10mb', extended: true })); 
 
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
     credentials: true
 }));
 
+app.options('*', cors()); 
 app.use("/api", router);
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
     if (err.name === 'PayloadTooLargeError') {
         return res.status(413).json({
@@ -32,7 +32,7 @@ app.use((err, req, res, next) => {
     next(err); 
 });
 
-// Default error handler
+
 app.use((err, req, res) => {
     console.error(err);
     res.status(500).json({
@@ -43,24 +43,24 @@ app.use((err, req, res) => {
     });
 });
 
-// Connect to MongoDB and export the Express app
+
 let isConnected = false;
 
 const connectAndStartServer = async () => {
     if (!isConnected) {
         try {
             await connectDB();
-            isConnected = true; // Set to true after successful connection
+            isConnected = true; 
             console.log('Connected to MongoDB');
         } catch (error) {
             console.error('Error connecting to MongoDB:', error.message);
-            process.exit(1); // Exit the process with failure
+            process.exit(1); 
         }
     }
 };
 
-// Vercel function export
+
 export default async (req, res) => {
     await connectAndStartServer();
-    app(req, res); // Pass requests to the Express app
+    app(req, res); 
 };
