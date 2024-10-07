@@ -76,19 +76,35 @@ function Add() {
 
       <form className="w-full" onSubmit={handleSubmit}>
         
-        <div className="mb-4">
-          <label className="block text-gray-700">
-            Country: <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-        </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">
+          Country: <span className="text-red-500">*</span>
+        </label>
+        <select 
+          name="country"
+          value={formData.country}
+          onChange={handleChange}
+          required
+          className="mt-1 p-2 border border-gray-300 rounded w-full"
+        >
+          <option value="" disabled>Select your country</option>
+          <option value="Philippines">Philippines</option>
+          <option value="United States">United States</option>
+          <option value="Canada">Canada</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="Australia">Australia</option>
+          <option value="India">India</option>
+          <option value="Germany">Germany</option>
+          <option value="France">France</option>
+          <option value="Japan">Japan</option>
+          <option value="China">China</option>
+          <option value="Thailand">Thailand</option>
+          <option value="Singapore">Singapore</option>
+          <option value="Malaysia">Malaysia</option>
+          <option value="South Korea">South Korea</option>
+          <option value="Vietnam">Vietnam</option>
+        </select>
+      </div>
 
         <div className="mb-4">
         <label className="block text-gray-700">
