@@ -13,6 +13,8 @@ function Employee() {
     const [error, setError] = useState(null);
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
 
     useEffect(() => {
         const fetchEmployees = async () => {
@@ -69,6 +71,14 @@ function Employee() {
             setShowDeleteDialog(false);
         }
     };
+    const filteredEmployees = employees.filter((employee) => {
+        const fullName = `${employee.firstName} ${employee.lastName}`.toLowerCase();
+        return (
+            fullName.includes(searchQuery.toLowerCase()) ||
+            employee.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            employee.email.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    });
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -99,7 +109,7 @@ function Employee() {
     
                         <div className="flex items-center justify-center gap-2">
                             <p className="text-sm md:text-base">Search:</p>
-                            <input className="px-2 h-[2rem] w-full md:w-[12rem] border border-gray-200 rounded-lg" />
+                            <input className="px-2 h-[2rem] w-full md:w-[12rem] border border-gray-200 rounded-lg" onChange={(e) => setSearchQuery(e.target.value)} placeholder='first name or last name'/>
                         </div>
                     </div>
     
@@ -117,7 +127,7 @@ function Employee() {
                                 </tr>
                             </thead>
                             <tbody className="text-center text-xs md:text-sm">
-                                {employees.map((employee) => (
+                                {filteredEmployees.map((employee) => (
                                     <tr key={employee._id}>
                                         <td className="p-2">
                                             {employee.photo ? (
