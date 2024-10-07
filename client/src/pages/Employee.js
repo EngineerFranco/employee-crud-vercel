@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import summaryAPI from '../api/api';
 import toast from 'react-hot-toast';
 import { FaRegCircleUser } from "react-icons/fa6";
+import { LuLoader } from "react-icons/lu";
 
 function Employee() {
     const [employees, setEmployees] = useState([]);
@@ -82,7 +83,7 @@ function Employee() {
 
     const displayedEmployees = entriesToShow === 'All' ? filteredEmployees : filteredEmployees.slice(0, entriesToShow);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <p className='flex justify-center items-center mt-52 text-7xl text-blue-500'><LuLoader/></p>;
     if (error) return <p>Error: {error}</p>;
 
     return (
@@ -91,7 +92,7 @@ function Employee() {
             <hr className="border-t border-gray-300 w-full" />
 
             <Link to={"/employee/add"} className="ml-auto">
-                <div className="flex justify-center items-center gap-2 p-2 bg-blue-400 rounded-md border border-gray-50 border-opacity-20 mb-3">
+                <div className="flex justify-center items-center gap-2 p-2 bg-blue-400 hover:bg-blue-500 rounded-md border border-gray-50 border-opacity-20 ">
                     <FaPlusSquare className="text-white" />
                     <button className="uppercase text-sm md:text-base text-white font-light">Add Employee</button>
                 </div>
@@ -159,13 +160,17 @@ function Employee() {
                                         <td className="p-2">{employee.contactNumber}</td>
                                         <td className="p-2">{employee.accountType}</td>
                                         <td className="p-2 flex justify-center items-center gap-3">
-                                            <Link to={`/employee/edit/${employee._id}`}>
-                                                <FaRegEdit className="bg-yellow-500 text-2xl md:text-3xl text-white rounded-md p-1" />
-                                            </Link>
-                                            <RiDeleteBin5Line
-                                                className="bg-red-500 text-2xl md:text-3xl text-white rounded-md p-1"
-                                                onClick={() => handleDeleteClick(employee._id)}
-                                            />
+                                        <Link to={`/employee/edit/${employee._id}`}>
+                                        <FaRegEdit 
+                                            className="bg-yellow-400 text-2xl md:text-3xl text-white rounded-sm cursor-pointer p-1 
+                                                    hover:bg-yellow-500 hover:scale-110 transition-all duration-300 ease-in-out" 
+                                        />
+                                        </Link>
+                                        <RiDeleteBin5Line
+                                        className="bg-red-400 text-2xl md:text-3xl text-white rounded-sm p-1 cursor-pointer 
+                                                    hover:bg-red-500 hover:scale-110 transition-all duration-300 ease-in-out"
+                                        onClick={() => handleDeleteClick(employee._id)}
+                                        />
                                         </td>
                                     </tr>
                                 ))}
@@ -176,8 +181,8 @@ function Employee() {
             </div>
 
             {showDeleteDialog && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-4 rounded shadow-lg">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 ">
+                    <div className="bg-white p-8 rounded shadow-3xl shadow-black">
                         <p className="text-sm md:text-base">Are you sure you want to delete this employee?</p>
                         <div className="mt-4 flex gap-2">
                             <button

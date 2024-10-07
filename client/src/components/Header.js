@@ -16,13 +16,13 @@ function Header() {
       <nav className='ml-auto p-5'>
         <ul className='flex justify-center items-center gap-5 font-normal '>
         <Link to={"/"}>
-          <li className='cursor-pointer'>Home</li>
+          <li className='cursor-pointer hover:text-blue-400 transition-all duration-300 ease-in-out hover:scale-105'>Home</li>
           </Link>
           <Link to={"/about"}>
-          <li className='cursor-pointer'>About</li>
+          <li className='cursor-pointer hover:text-blue-400 transition-all duration-300 ease-in-out hover:scale-105'>About</li>
           </Link>
           <Link to={"/employee"}>
-          <li className='cursor-pointer'>Employee</li>
+          <li className='cursor-pointer hover:text-blue-400 transition-all duration-300 ease-in-out hover:scale-105'>Employee</li>
           </Link>
         </ul>
       </nav>
