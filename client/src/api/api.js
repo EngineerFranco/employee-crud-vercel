@@ -1,4 +1,4 @@
-const serverDomain = 'http://localhost:3500'
+const serverDomain = 'https://employee-crud-vercel-t2l1.vercel.app'
 
 const summaryAPI = {
     add : {
