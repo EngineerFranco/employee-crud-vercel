@@ -12,8 +12,9 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true })); 
 
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
-    credentials: true
+    origin: 'https://employee-crud-vercel.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, 
 }));
 
 app.options('*', cors()); 
