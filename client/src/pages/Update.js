@@ -120,16 +120,21 @@ function Update() {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Account Type: <span className="text-red-500">*</span></label>
-          <input
-            type="text"
-            name="accountType"
-            value={formData.accountType}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-        </div>
+        <label className="block text-gray-700">
+          Account Type: <span className="text-red-500">*</span>
+        </label>
+        <select
+          name="accountType"
+          value={formData.accountType}
+          onChange={handleChange}
+          required
+          className="mt-1 p-2 border border-gray-300 rounded w-full"
+        >
+          <option value="" disabled>Select account type</option>
+          <option value="Admin">Admin</option>
+          <option value="Employee">Employee</option>
+         </select>
+         </div>
 
         <div className="mb-4">
           <label className="block text-gray-700">Username: <span className="text-red-500">*</span></label>
