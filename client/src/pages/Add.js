@@ -180,19 +180,21 @@ function Add() {
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">
-            Contact Number: <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="number"
-            name="contactNumber"
-            value={formData.contactNumber}
-            onChange={handleChange}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
+            <label className="block text-gray-700">
+                Contact Number: <span className="text-red-500">*</span>
+            </label>
+            <input
+                type="tel" 
+                name="contactNumber"
+                value={formData.contactNumber}
+                onChange={handleChange}
+                required
+                pattern="[0-9]*" 
+                minLength={5}
+                maxLength={15} 
+                className="mt-1 p-2 border border-gray-300 rounded w-full"
+            />
         </div>
-
         <div className="mb-4">
           <label className="block text-gray-700">
             Photo (Optional):
