@@ -43,23 +43,24 @@ app.use((err, req, res) => {
     });
 });
 
-// Initialize database connection
+// Connect to MongoDB and export the Express app
 let isConnected = false;
 
 const connectAndStartServer = async () => {
-    try {
-        await connectDB();
-        isConnected = true; // Set to true after successful connection
-        console.log('Connected to MongoDB');
-        const port = process.env.PORT || 3501;
-        app.listen(port, () => {
-            console.log(`Server is running at port ${port}`);
-        });
-    } catch (error) {
-        console.error('Error connecting to MongoDB:', error.message);
-        process.exit(1); // Exit the process with failure
+    if (!isConnected) {
+        try {
+            await connectDB();
+            isConnected = true; // Set to true after successful connection
+            console.log('Connected to MongoDB');
+        } catch (error) {
+            console.error('Error connecting to MongoDB:', error.message);
+            process.exit(1); // Exit the process with failure
+        }
     }
 };
 
-// Call the function to start the server
-connectAndStartServer();
+// Vercel function export
+export default async (req, res) => {
+    await connectAndStartServer();
+    app(req, res); // Pass requests to the Express app
+};
